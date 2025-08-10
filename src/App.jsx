@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import NeonSign from './components/NeonSign';
 import './index.css';
 
 // --- SOUND SETUP ---
@@ -27,12 +26,12 @@ const playRandomHoverSound = () => {
   hoverSound.play().catch(e => console.error("Error playing sound:", e));
 };
 
-// --- GAME LOADER ---
-const gameModules = import.meta.glob('./games/**/*.jsx', { eager: true });
+// --- SIMULATION LOADER ---
+const simulationModules = import.meta.glob('./simulations/**/*.jsx', { eager: true });
 
-const games = Object.keys(gameModules).map((path) => {
+const simulations = Object.keys(simulationModules).map((path) => {
   const name = path.split('/').slice(-2)[0];
-  const component = gameModules[path].default;
+  const component = simulationModules[path].default;
   return {
     path: `/${name}`,
     name: name.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
@@ -41,7 +40,37 @@ const games = Object.keys(gameModules).map((path) => {
 });
 
 // --- COMPONENTS ---
-function GameMenu() {
+function AboutMe() {
+  const [aboutContent, setAboutContent] = useState('');
+  
+  useEffect(() => {
+    fetch('/aboutme.md')
+      .then(response => response.text())
+      .then(text => setAboutContent(text))
+      .catch(err => console.error('Error loading about content:', err));
+  }, []);
+  
+  const formatMarkdown = (text) => {
+    return text
+      .replace(/^# (.*$)/gim, '<h1 class="text-3xl font-bold mb-4 text-blue-400">$1</h1>')
+      .replace(/^## (.*$)/gim, '<h2 class="text-2xl font-semibold mb-3 text-blue-300">$2</h2>')
+      .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold">$1</strong>')
+      .replace(/\n\n/g, '</p><p class="mb-4 text-gray-300 leading-relaxed">')
+      .replace(/^(.*)$/gm, '<p class="mb-4 text-gray-300 leading-relaxed">$1</p>');
+  };
+  
+  return (
+    <div className="bg-gray-800/70 backdrop-blur-sm border border-blue-500/50 p-8 rounded-lg shadow-lg mb-8">
+      <div 
+        dangerouslySetInnerHTML={{ 
+          __html: formatMarkdown(aboutContent) 
+        }} 
+      />
+    </div>
+  );
+}
+
+function SimulationMenu() {
   return (
     <div
       className="relative min-h-screen flex flex-col items-center p-4 sm:p-8 overflow-hidden"
@@ -53,21 +82,34 @@ function GameMenu() {
 
       {/* Main content, using z-10 to ensure it appears above the background */}
       <div className="relative z-10 flex flex-col items-center w-full">
-        <NeonSign />
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl mt-4">
-          {games.map(game => (
-            <Link
-              key={game.path}
-              to={game.path}
-              onMouseEnter={playRandomHoverSound}
-              className="bg-gray-800/70 backdrop-blur-sm border border-indigo-500/50 p-6 rounded-lg shadow-lg shadow-indigo-500/20 hover:shadow-xl hover:shadow-indigo-400/40 hover:bg-gray-700/80 transition-all transform hover:-translate-y-1.5"
-            >
-              <h2 className="text-xl font-semibold text-gray-100">{game.name}</h2>
-              <p className="text-gray-400 text-sm mt-2">Click to play!</p>
-            </Link>
-          ))}
-        </div>
+        <h1 className="text-4xl md:text-6xl font-bold text-center mb-8 text-blue-400" 
+            style={{ fontFamily: "'Press Start 2P', cursive" }}>
+          Civil Engineering Simulations
+        </h1>
+        
+        <AboutMe />
+        
+        {simulations.length > 0 && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl mt-4">
+            {simulations.map(simulation => (
+              <Link
+                key={simulation.path}
+                to={simulation.path}
+                onMouseEnter={playRandomHoverSound}
+                className="bg-gray-800/70 backdrop-blur-sm border border-blue-500/50 p-6 rounded-lg shadow-lg shadow-blue-500/20 hover:shadow-xl hover:shadow-blue-400/40 hover:bg-gray-700/80 transition-all transform hover:-translate-y-1.5"
+              >
+                <h2 className="text-xl font-semibold text-gray-100">{simulation.name}</h2>
+                <p className="text-gray-400 text-sm mt-2">Explore simulation</p>
+              </Link>
+            ))}
+          </div>
+        )}
+        
+        {simulations.length === 0 && (
+          <div className="bg-gray-800/70 backdrop-blur-sm border border-yellow-500/50 p-6 rounded-lg shadow-lg mt-4">
+            <p className="text-yellow-400 text-center">Simulations are being prepared. Please check back soon!</p>
+          </div>
+        )}
       </div> {/* <-- FIX: This was the missing closing div tag */}
     </div>
   );
@@ -78,9 +120,9 @@ export default function App() {
   return (
     <Router basename="/nuggetroidarcade/">
       <Routes>
-        <Route path="/" element={<GameMenu />} />
-        {games.map(({ path, Component: GameComponent }) => (
-          <Route key={path} path={path} element={<GameComponent />} />
+        <Route path="/" element={<SimulationMenu />} />
+        {simulations.map(({ path, Component: _Component }) => (
+          <Route key={path} path={path} element={<_Component />} />
         ))}
       </Routes>
     </Router>
