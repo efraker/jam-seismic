@@ -104,7 +104,7 @@ function SimulationMenu() {
             <p className="text-yellow-400 text-center">Simulations are being prepared. Please check back soon!</p>
           </div>
         )}
-      </div> {/* <-- FIX: This was the missing closing div tag */}
+      </div>
     </div>
   );
 }
@@ -112,7 +112,7 @@ function SimulationMenu() {
 // The main App component that handles all the routing
 export default function App() {
   return (
-    <Router basename="/nuggetroidarcade/">
+    <Router basename="/jam-seismic/">
       <Routes>
         <Route path="/" element={<SimulationMenu />} />
         {simulations.map(({ path, Component: _Component }) => (
