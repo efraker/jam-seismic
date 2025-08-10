@@ -1,8 +1,7 @@
 import React from 'react';
 
 /**
- * Scientific Parameter Panel Component
- * Provides technical input controls with academic styling
+ * Parameter Panel Component
  */
 export function ParameterPanel({ 
   title, 
@@ -49,7 +48,6 @@ export function ParameterPanel({
 
 /**
  * Parameter Input Component
- * Scientific-styled input with label, units, and validation
  */
 export function ParameterInput({ 
   label, 
@@ -181,7 +179,6 @@ export function DataDisplay({
 
 /**
  * Control Button Component
- * Scientific-styled buttons for simulation controls
  */
 export function ControlButton({ 
   children, 

@@ -1,31 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import authorBioContent from './assets/authorbio.md?raw';
 import './index.css';
-
-// --- SOUND SETUP ---
-// 1. Import each sound file directly. Vite will handle the paths.
-import jumpSound from './assets/sounds/jump.mp3';
-import laserSound from './assets/sounds/laser.mp3';
-import howlSound from './assets/sounds/howl.mp3';
-import explosionSound from './assets/sounds/explosion.mp3';
-
-// 2. Create the array using the imported variables.
-const soundFiles = [
-  jumpSound,
-  laserSound,
-  howlSound,
-  explosionSound
-];
-
-const hoverSound = new Audio();
-hoverSound.volume = 0.4;
-
-const playRandomHoverSound = () => {
-  const randomSoundSrc = soundFiles[Math.floor(Math.random() * soundFiles.length)];
-  hoverSound.src = randomSoundSrc;
-  hoverSound.play().catch(e => console.error("Error playing sound:", e));
-};
 
 // --- SIMULATION LOADER ---
 const simulationModules = import.meta.glob('./simulations/**/*.jsx', { eager: true });
@@ -75,7 +51,7 @@ function SimulationMenu() {
             Civil Engineering Simulations
           </h1>
           <p className="text-data-label">Interactive Educational Platform</p>
-          <p className="text-reference mt-2">Jerome Maurseth, P.E. - US Army Corps of Engineers</p>
+          <p className="text-reference mt-2">Jerome Maurseth, P.E., US ACE, Ret'd.</p>
         </header>
         
         <AuthorBio />
@@ -89,7 +65,6 @@ function SimulationMenu() {
                 <Link
                   key={simulation.path}
                   to={simulation.path}
-                  onMouseEnter={playRandomHoverSound}
                   className="panel-scientific p-4 hover:bg-mono-100 transition-all duration-100 border-precise-2"
                 >
                   <div className="flex items-center justify-between">
@@ -116,7 +91,7 @@ function SimulationMenu() {
         
         {/* Footer - Academic Paper Style */}
         <footer className="mt-16 pt-8 border-t border-mono-300 text-center">
-          <p className="text-reference">© 2024 Civil Engineering Educational Platform</p>
+          <p className="text-reference">© 2025 Civil Engineering Educational Platform</p>
         </footer>
       </div>
     </div>

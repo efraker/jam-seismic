@@ -1,29 +1,48 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides comprehensive guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Project Overview
 
-This is "Civil Engineering Simulations", a React-based educational platform designed for demonstrating structural engineering concepts. The project uses a modular architecture where new simulations can be added by simply creating a folder structure under `src/simulations/`, and the main application will automatically discover and route to them.
+This is "Civil Engineering Simulations", a comprehensive React-based educational platform designed for demonstrating structural engineering concepts. The platform uses a sophisticated modular architecture with unified resource management, where new simulations can be added by simply creating a folder structure under `src/simulations/`, and the main application will automatically discover and route to them.
 
-The platform was created by Jerome Maurseth to share insights from his decades as a civil engineer with the US Army Corps of Engineers, focusing on interactive demonstrations of structural dynamics, earthquake engineering, and related topics.
+The platform was created by Jerome Maurseth to share insights from his decades as a civil engineer with the US Army Corps of Engineers, focusing on interactive demonstrations of structural dynamics, earthquake engineering, geotechnical engineering, and related topics.
 
 ## Development Commands
 
 - `npm run dev` - Start the Vite development server
 - `npm run build` - Build for production
-- `npm run lint` - Run ESLint
+- `npm run lint` - Run ESLint (some React Hook warnings are acceptable)
 - `npm run preview` - Preview production build locally
 
 ## Tech Stack
 
 - **Framework**: React 19+ with React Router DOM
 - **Build Tool**: Vite 7+
-- **Styling**: Tailwind CSS 4+ (using PostCSS)
+- **Styling**: Tailwind CSS 4+ with custom academic paper design system
 - **Linting**: ESLint with React hooks and refresh plugins
-- **Deployment**: GitHub Pages (configured with `/nuggetroidarcade/` basename)
+- **Deployment**: GitHub Pages (configured with `/jam-seismic/` basename)
 
-## Architecture
+## Unified Architecture
+
+### Directory Structure
+```
+src/
+├── components/
+│   ├── scientific/          # Core UI components (ParameterPanel, Figure, etc.)
+│   ├── layout/              # Page layouts (AcademicPage, SimulationLayout)
+│   ├── content/             # Content components (FormulaDisplay, ReferenceLinks)
+│   └── interactive/         # Interactive visualizations (future expansion)
+├── constants/
+│   └── engineering.js       # Centralized formulas, materials, conversions
+├── services/
+│   ├── wolframAlpha.js      # Wolfram Alpha integration (URL generation)
+│   └── externalIntegrations.js # External services (Claude, Substack, references)
+├── simulations/             # Auto-discovered simulation modules
+├── styles/
+│   └── theme.css           # Academic paper design system
+└── utils/                  # Utility functions
+```
 
 ### Auto-Discovery Simulation System
 
@@ -49,14 +68,118 @@ The folder name becomes the URL path (e.g., `/earthquake-simulation`), and the d
 
 ### Routing Configuration
 
-- **Base Path**: `/nuggetroidarcade/` (configured for GitHub Pages)
+- **Base Path**: `/jam-seismic/` (configured for GitHub Pages)
 - **Home Route**: `/` - Shows the simulation menu with About Me section
 - **Simulation Routes**: Automatically generated from folder names in `src/simulations/`
+
+## Key Components and Patterns
+
+### Layout Components
+- **AcademicPage**: Standard page layout with academic paper styling
+- **SimulationLayout**: Three-column layout for interactive simulations (parameters, visualization, results)
+
+### Scientific Components
+- **ParameterPanel**: Container for parameter controls with variants (primary, secondary, data)
+- **ParameterInput**: Numerical input with units, validation, and precision control
+- **DataDisplay**: Formatted display of calculated results
+- **ControlButton**: Styled buttons following academic theme
+- **Figure**: Academic figure with automatic numbering and captions
+
+### Content Components
+- **FormulaDisplay**: Mathematical formula presentation with LaTeX-style rendering
+- **InteractiveFormula**: Formula with live parameter input and calculation
+- **FormulaLibrary**: Collection of related formulas with tabbed interface
+- **ReferenceLinks**: Organized external resource links
+- **LinkTree**: Hierarchical resource organization
+
+### Engineering Constants
+All engineering calculations are centralized in `src/constants/engineering.js`:
+- Material properties (steel, concrete, timber, soil)
+- Structural formulas (beam analysis, column design, dynamics)
+- Unit conversions
+- Engineering standards references
+
+### External Integrations
+- **Wolfram Alpha**: Pre-constructed URLs for calculation verification
+- **Claude.ai**: Development assistance with prompt templates
+- **Substack**: Newsletter integration capabilities
+- **Reference Libraries**: Curated engineering resources
+
+## Current Simulations
+
+1. **Earthquake Simulation**: Seismic response analysis with dynamic visualization
+2. **Engineering Reference Library**: Comprehensive resource directory with external links
+3. **Units & Conversions Calculator**: Smart engineering unit converter with history
+4. **Formula Visualizer**: Interactive engineering formulas with visual representations
+5. **Development Hub**: Claude.ai integration and project management tools
+6. **Load Path Tracer**: Visual demonstration of force flow through structures
+7. **Soil-Structure Interaction**: Foundation design with geotechnical analysis
+
+## Design System - Academic Paper Aesthetic
+
+The platform follows a rigorous academic paper design philosophy:
+
+- **Monochrome Palette**: Grayscale colors with semantic tokens
+- **Typography**: Monospace fonts (Courier New) for technical precision
+- **Information Density**: Compact layouts optimized for data presentation
+- **Figure Numbering**: Automatic academic-style figure numbering
+- **Scientific Notation**: Proper units, precision, and engineering standards
+
+Key CSS variables are defined in `src/styles/theme.css` with:
+- Color system (mono-white through mono-black)
+- Typography scale (academic hierarchy)
+- Spacing system (dense, precise measurements)
+- Component patterns (panels, borders, states)
+
+## Adding New Simulations
+
+1. Create a new folder under `src/simulations/` with a kebab-case name
+2. Add a `.jsx` file with the same name as the folder
+3. Use existing layout components (`SimulationLayout`, `AcademicPage`)
+4. Import engineering constants from `src/constants/engineering.js`
+5. Follow the academic design system with existing components
+6. Export a default React component that implements the simulation
+7. The simulation will automatically appear in the menu and be routable
+
+### Engineering Simulation Guidelines
+
+- Use `SimulationLayout` for three-column interactive layout
+- Include parameter controls using `ParameterPanel` and `ParameterInput`
+- Display results using `DataDisplay` components
+- Add Wolfram Alpha verification links where appropriate
+- Provide educational content explaining engineering principles
+- Use centralized formulas from `engineering.js`
+- Follow existing component patterns for consistency
+- Include canvas-based visualizations where beneficial
+- Add comprehensive documentation and units
+
+## Development Workflow
+
+### For Jerome (Platform Owner):
+1. Always provide these core files to Claude.ai for context:
+   - `CLAUDE.md` (this file)
+   - `README.md` (project overview)
+   - `src/constants/engineering.js` (centralized engineering data)
+   - `src/components/layout/AcademicPage.jsx` (layout patterns)
+   - `src/components/scientific/ParameterPanel.jsx` (component patterns)
+
+2. For specific simulation work, also provide:
+   - The specific simulation file being modified
+   - `src/styles/theme.css` if styling changes are needed
+   - Any related service files (`wolframAlpha.js`, etc.)
+
+### For Claude.ai Development:
+1. Always read the provided context files first
+2. Follow existing patterns and component architecture
+3. Use centralized engineering constants and formulas
+4. Maintain academic aesthetic consistency
+5. Test with `npm run dev` and resolve lint issues
+6. Document any new features or architectural changes
 
 ## Configuration Files
 
 ### PostCSS Setup
-The project uses CommonJS syntax for PostCSS configuration due to Tailwind CSS 4+ requirements:
+Uses CommonJS syntax for Tailwind CSS 4+ compatibility:
 ```javascript
 module.exports = {
   plugins: {
@@ -66,48 +189,25 @@ module.exports = {
 }
 ```
 
-### Tailwind Configuration
-Uses standard Tailwind 4+ setup with content scanning configured for the project structure.
+### ESLint Configuration
+- Modern flat config format
+- React hooks and refresh plugins
+- Custom rules for engineering constants (uppercase unused vars allowed)
+- Some React Hook dependency warnings are acceptable for canvas-based visualizations
 
-### ESLint Rules
-- Uses modern ESLint flat config
-- Includes React hooks and refresh plugins
-- Custom rule: `no-unused-vars` with exception for uppercase constants
+## Deployment
 
-## Adding New Simulations
+- **Platform**: GitHub Pages
+- **Base Path**: `/jam-seismic/` (configured in vite.config.js)
+- **Build Command**: `npm run build`
+- **Auto-deployment**: Configured via GitHub Actions (if enabled)
 
-1. Create a new folder under `src/simulations/` with a kebab-case name
-2. Add a `.jsx` file with the same name as the folder
-3. Export a default React component that implements the simulation
-4. The simulation will automatically appear in the menu and be routable
+## Important Notes for Development
 
-### Engineering Simulation Guidelines
-
-- Include interactive parameter controls for key engineering variables
-- Provide real-time visualization of structural behavior
-- Add educational content explaining engineering principles
-- Consider including voice synthesis for accessibility
-- Use appropriate units and engineering formulas
-
-## Current State
-
-The project has been transformed from a game arcade into a civil engineering education platform. The main page includes an "About Me" section featuring Jerome Maurseth's background, and the auto-discovery system now works with simulations instead of games.
-
-### Available Simulations
-
-- **Earthquake Simulation**: Interactive demonstration of structural response to seismic forces, featuring:
-  - Real-time animated visualization of building motion
-  - User-adjustable parameters (mass, stiffness, damping, ground acceleration)
-  - Engineering calculations (natural frequency, period, amplification factors)
-  - Voice synthesis capability for accessibility
-  - Educational insights about resonance, damping, and seismic design
-
-## Features Preserved
-
-- **Voice Synthesis**: Web Speech API integration for accessibility and narration
-- **Sound Effects**: Hover sounds and audio feedback preserved from original arcade
-- **Auto-Discovery**: Dynamic routing system now works with engineering simulations
-
-## Known Issues
-
-Previous setup encountered PostCSS configuration issues that have been resolved by using the current CommonJS configuration format and proper Tailwind CSS 4+ dependencies.
+- **Academic Aesthetic**: Maintain monochrome, precise, technical styling
+- **Component Reuse**: Always prefer existing components over creating new ones
+- **Engineering Accuracy**: Verify all calculations and formulas
+- **Accessibility**: Consider voice synthesis and screen readers
+- **Mobile Responsive**: Test layouts on various screen sizes
+- **Performance**: Canvas animations should be smooth and efficient
+- **Documentation**: Update this file when making architectural changes

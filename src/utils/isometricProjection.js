@@ -1,6 +1,5 @@
 /**
  * Isometric and 3D Projection Utilities
- * For creating retro scientific 3D visualizations
  */
 
 /**
