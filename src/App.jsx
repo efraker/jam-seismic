@@ -46,64 +46,78 @@ function AuthorBio() {
   
   const formatMarkdown = (text) => {
     return text
-      .replace(/^# (.*$)/gim, '<h1 class="text-3xl font-bold mb-4 text-blue-400">$1</h1>')
-      .replace(/^## (.*$)/gim, '<h2 class="text-2xl font-semibold mb-3 text-blue-300">$2</h2>')
-      .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold">$1</strong>')
-      .replace(/\n\n/g, '</p><p class="mb-4 text-gray-300 leading-relaxed">')
-      .replace(/^(.*)$/gm, '<p class="mb-4 text-gray-300 leading-relaxed">$1</p>');
+      .replace(/^# (.*$)/gim, '<h2 class="heading-secondary text-caps mb-4">$1</h2>')
+      .replace(/^## (.*$)/gim, '<h3 class="heading-tertiary mb-3">$2</h3>')
+      .replace(/\*\*(.*?)\*\*/g, '<strong class="text-data-value">$1</strong>')
+      .replace(/\n\n/g, '</p><p class="text-author-bio mb-4">')
+      .replace(/^(.*)$/gm, '<p class="text-author-bio mb-4">$1</p>');
   };
   
   return (
-    <div className="bg-gray-800/70 backdrop-blur-sm border border-blue-500/50 p-8 rounded-lg shadow-lg mb-8">
+    <section className="panel-scientific p-6 border-precise-2 mb-8">
       <div 
         dangerouslySetInnerHTML={{ 
           __html: formatMarkdown(bioContent) 
         }} 
       />
-    </div>
+    </section>
   );
 }
 
 function SimulationMenu() {
   return (
-    <div
-      className="relative min-h-screen flex flex-col items-center p-4 sm:p-8 overflow-hidden"
-      style={{ fontFamily: "'Press Start 2P', cursive" }}
-    >
-      {/* Animated Starfield Background Elements */}
-      <div className="stars"></div>
-      <div className="twinkling"></div>
-
-      {/* Main content, using z-10 to ensure it appears above the background */}
-      <div className="relative z-10 flex flex-col items-center w-full">
-        <h1 className="text-4xl md:text-6xl font-bold text-center mb-8 text-blue-400" 
-            style={{ fontFamily: "'Press Start 2P', cursive" }}>
-          Civil Engineering Simulations
-        </h1>
+    <div className="min-h-screen bg-mono-white text-mono-black font-mono">
+      <div className="max-w-4xl mx-auto p-8 space-academic">
+        
+        {/* Page Header - Academic Paper Style */}
+        <header className="text-center border-b-2 border-mono-black pb-6 mb-8">
+          <h1 className="heading-primary text-caps tracking-scientific mb-2">
+            Civil Engineering Simulations
+          </h1>
+          <p className="text-data-label">Interactive Educational Platform</p>
+          <p className="text-reference mt-2">Jerome Maurseth, P.E. - US Army Corps of Engineers</p>
+        </header>
         
         <AuthorBio />
         
+        {/* Simulations Grid - Academic Figure Layout */}
         {simulations.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl mt-4">
-            {simulations.map(simulation => (
-              <Link
-                key={simulation.path}
-                to={simulation.path}
-                onMouseEnter={playRandomHoverSound}
-                className="bg-gray-800/70 backdrop-blur-sm border border-blue-500/50 p-6 rounded-lg shadow-lg shadow-blue-500/20 hover:shadow-xl hover:shadow-blue-400/40 hover:bg-gray-700/80 transition-all transform hover:-translate-y-1.5"
-              >
-                <h2 className="text-xl font-semibold text-gray-100">{simulation.name}</h2>
-                <p className="text-gray-400 text-sm mt-2">Explore simulation</p>
-              </Link>
-            ))}
-          </div>
+          <section className="mt-12">
+            <h2 className="text-figure-title mb-6">Available Simulations</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {simulations.map((simulation, index) => (
+                <Link
+                  key={simulation.path}
+                  to={simulation.path}
+                  onMouseEnter={playRandomHoverSound}
+                  className="panel-scientific p-4 hover:bg-mono-100 transition-all duration-100 border-precise-2"
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h3 className="text-data-value text-lg mb-1">{simulation.name}</h3>
+                      <p className="text-data-label">Figure {index + 1}</p>
+                    </div>
+                    <div className="text-data-label">
+                      →
+                    </div>
+                  </div>
+                  <p className="text-methodology mt-2">Interactive engineering demonstration</p>
+                </Link>
+              ))}
+            </div>
+          </section>
         )}
         
         {simulations.length === 0 && (
-          <div className="bg-gray-800/70 backdrop-blur-sm border border-yellow-500/50 p-6 rounded-lg shadow-lg mt-4">
-            <p className="text-yellow-400 text-center">Simulations are being prepared. Please check back soon!</p>
+          <div className="panel-scientific p-6 mt-8 border-precise-2">
+            <p className="text-center text-data-label">Simulations are being prepared. Please check back soon.</p>
           </div>
         )}
+        
+        {/* Footer - Academic Paper Style */}
+        <footer className="mt-16 pt-8 border-t border-mono-300 text-center">
+          <p className="text-reference">© 2024 Civil Engineering Educational Platform</p>
+        </footer>
       </div>
     </div>
   );

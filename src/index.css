@@ -1,13 +1,11 @@
+/* === IMPORTS MUST COME FIRST === */
+@import './styles/theme.css';
+@import './styles/typography.css';
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* === SCIENTIFIC THEME IMPORTS === */
-@import './styles/theme.css';
-@import './styles/typography.css';
-
-/* === MONOSPACE FONT IMPORTS === */
-@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap');
 
 /* === BASE LAYER OVERRIDES === */
 @layer base {

@@ -86,7 +86,7 @@ export default function EarthquakeSimulation() {
     };
   }, [isPlaying, parameters]);
 
-  // Draw the structure and ground motion
+  // Draw the academic-style visualization
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -95,71 +95,187 @@ export default function EarthquakeSimulation() {
     const width = canvas.width;
     const height = canvas.height;
     
-    // Clear canvas
-    ctx.fillStyle = '#1f2937';
+    // Clear canvas with white background
+    ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, width, height);
     
+    // Draw grid lines (academic paper style)
+    ctx.strokeStyle = '#e5e5e5';
+    ctx.lineWidth = 1;
+    const gridSize = 20;
+    
+    // Vertical grid lines
+    for (let x = 0; x <= width; x += gridSize) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, height);
+      ctx.stroke();
+    }
+    
+    // Horizontal grid lines
+    for (let y = 0; y <= height; y += gridSize) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(width, y);
+      ctx.stroke();
+    }
+    
+    // Major grid lines
+    ctx.strokeStyle = '#d4d4d4';
+    ctx.lineWidth = 1;
+    
+    for (let x = 0; x <= width; x += gridSize * 5) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, height);
+      ctx.stroke();
+    }
+    
+    for (let y = 0; y <= height; y += gridSize * 5) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(width, y);
+      ctx.stroke();
+    }
+    
     // Scale factor for visualization
-    const scale = 0.5;
+    const scale = 1.0;
     const centerX = width / 2;
     const centerY = height / 2;
     
     // Ground motion (horizontal displacement)
     const groundDisp = parameters.groundAccel * Math.sin(2 * Math.PI * parameters.frequency * time) * scale;
     
-    // Ground
-    ctx.fillStyle = '#8B4513';
-    ctx.fillRect(0, centerY + 100 + groundDisp, width, 50);
+    // Ground (hatched pattern like academic figures)
+    ctx.fillStyle = '#000000';
+    const groundY = centerY + 120;
+    ctx.fillRect(0, groundY, width, 20);
     
-    // Foundation
-    ctx.fillStyle = '#666666';
-    ctx.fillRect(centerX - 30 + groundDisp, centerY + 80, 60, 20);
+    // Add hatching pattern to ground
+    ctx.strokeStyle = '#ffffff';
+    ctx.lineWidth = 1;
+    for (let i = 0; i < width; i += 4) {
+      ctx.beginPath();
+      ctx.moveTo(i + groundDisp * 0.1, groundY);
+      ctx.lineTo(i + 2 + groundDisp * 0.1, groundY + 20);
+      ctx.stroke();
+    }
     
-    // Structure (building)
+    // Foundation (solid black)
+    ctx.fillStyle = '#000000';
+    ctx.fillRect(centerX - 40 + groundDisp, centerY + 100, 80, 20);
+    
+    // Structure (building) - outlined box with hatching
     const structureX = centerX + groundDisp + displacement * scale;
     
-    // Main structure
-    ctx.fillStyle = '#3B82F6';
-    ctx.fillRect(structureX - 25, centerY - 20, 50, 100);
+    // Main structure outline
+    ctx.strokeStyle = '#000000';
+    ctx.lineWidth = 2;
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(structureX - 30, centerY - 30, 60, 130);
+    ctx.strokeRect(structureX - 30, centerY - 30, 60, 130);
     
-    // Roof
-    ctx.fillStyle = '#1E40AF';
+    // Add diagonal hatching to show this is the structure
+    ctx.strokeStyle = '#000000';
+    ctx.lineWidth = 1;
+    for (let i = -30; i < 30; i += 8) {
+      ctx.beginPath();
+      ctx.moveTo(structureX + i, centerY - 30);
+      ctx.lineTo(structureX + i + 30, centerY + 0);
+      ctx.stroke();
+    }
+    
+    // Mass symbol at top (filled circle)
+    ctx.fillStyle = '#000000';
     ctx.beginPath();
-    ctx.moveTo(structureX - 35, centerY - 20);
-    ctx.lineTo(structureX, centerY - 50);
-    ctx.lineTo(structureX + 35, centerY - 20);
-    ctx.closePath();
+    ctx.arc(structureX, centerY - 40, 8, 0, 2 * Math.PI);
     ctx.fill();
     
-    // Spring/damper representation
-    ctx.strokeStyle = '#EF4444';
+    // Spring representation (simplified)
+    ctx.strokeStyle = '#000000';
     ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.moveTo(centerX + groundDisp, centerY + 80);
-    ctx.lineTo(structureX, centerY + 80);
+    ctx.moveTo(centerX + groundDisp, centerY + 100);
+    ctx.lineTo(structureX, centerY + 100);
     ctx.stroke();
     
-    // Displacement indicator
-    if (Math.abs(displacement) > 0.1) {
-      ctx.strokeStyle = '#F59E0B';
-      ctx.lineWidth = 3;
-      ctx.setLineDash([5, 5]);
+    // Add spring coils
+    const springStartX = centerX + groundDisp;
+    const springEndX = structureX;
+    const springY = centerY + 100;
+    const coilCount = 6;
+    const coilWidth = (springEndX - springStartX) / coilCount;
+    
+    ctx.strokeStyle = '#000000';
+    ctx.lineWidth = 1;
+    for (let i = 0; i < coilCount; i++) {
+      const x1 = springStartX + i * coilWidth;
+      const x2 = springStartX + (i + 0.5) * coilWidth;
+      const x3 = springStartX + (i + 1) * coilWidth;
+      
       ctx.beginPath();
-      ctx.moveTo(centerX + groundDisp, centerY - 60);
-      ctx.lineTo(structureX, centerY - 60);
+      ctx.moveTo(x1, springY);
+      ctx.lineTo(x2, springY - 8);
+      ctx.lineTo(x2, springY + 8);
+      ctx.lineTo(x3, springY);
+      ctx.stroke();
+    }
+    
+    // Displacement measurement line
+    if (Math.abs(displacement) > 0.1) {
+      ctx.strokeStyle = '#000000';
+      ctx.lineWidth = 1;
+      ctx.setLineDash([3, 3]);
+      ctx.beginPath();
+      ctx.moveTo(centerX + groundDisp, centerY - 70);
+      ctx.lineTo(structureX, centerY - 70);
       ctx.stroke();
       ctx.setLineDash([]);
       
+      // Arrow heads
+      const arrowSize = 4;
+      ctx.fillStyle = '#000000';
+      
+      // Left arrow
+      ctx.beginPath();
+      ctx.moveTo(centerX + groundDisp, centerY - 70);
+      ctx.lineTo(centerX + groundDisp + arrowSize, centerY - 70 - arrowSize);
+      ctx.lineTo(centerX + groundDisp + arrowSize, centerY - 70 + arrowSize);
+      ctx.closePath();
+      ctx.fill();
+      
+      // Right arrow
+      ctx.beginPath();
+      ctx.moveTo(structureX, centerY - 70);
+      ctx.lineTo(structureX - arrowSize, centerY - 70 - arrowSize);
+      ctx.lineTo(structureX - arrowSize, centerY - 70 + arrowSize);
+      ctx.closePath();
+      ctx.fill();
+      
       // Displacement value
-      ctx.fillStyle = '#F59E0B';
-      ctx.font = '14px monospace';
-      ctx.fillText(`${displacement.toFixed(1)} mm`, centerX + 20, centerY - 65);
+      ctx.fillStyle = '#000000';
+      ctx.font = '10px monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText(`δ = ${displacement.toFixed(1)} mm`, (centerX + groundDisp + structureX) / 2, centerY - 75);
+      ctx.textAlign = 'start';
     }
     
-    // Time display
-    ctx.fillStyle = '#FFFFFF';
-    ctx.font = '16px monospace';
-    ctx.fillText(`Time: ${time.toFixed(1)}s`, 10, 30);
+    // Time and parameters display (academic style)
+    ctx.fillStyle = '#000000';
+    ctx.font = '10px monospace';
+    ctx.fillText(`t = ${time.toFixed(2)} s`, 10, 20);
+    ctx.fillText(`f = ${parameters.frequency.toFixed(1)} Hz`, 10, 35);
+    ctx.fillText(`f₀ = ${parameters.naturalFreq.toFixed(2)} Hz`, 10, 50);
+    
+    // Axes labels
+    ctx.fillStyle = '#000000';
+    ctx.font = '10px monospace';
+    ctx.fillText('Ground Motion →', 10, height - 10);
+    ctx.save();
+    ctx.translate(15, height / 2);
+    ctx.rotate(-Math.PI / 2);
+    ctx.fillText('↑ Structure Response', 0, 0);
+    ctx.restore();
     
   }, [time, displacement, parameters]);
 
@@ -197,65 +313,65 @@ export default function EarthquakeSimulation() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 p-4">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="mb-6">
+    <div className="min-h-screen bg-mono-white text-mono-black font-mono p-8">
+      <div className="max-w-6xl mx-auto">
+        {/* Header - Academic Paper Style */}
+        <header className="border-b-2 border-mono-black pb-6 mb-8">
           <Link 
             to="/" 
-            className="inline-block mb-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+            className="btn-scientific mb-4 inline-block text-xs"
           >
-            ← Back to Simulations
+            ← BACK TO SIMULATIONS
           </Link>
           
-          <h1 className="text-4xl font-bold text-blue-400 mb-2">Earthquake Simulation</h1>
-          <p className="text-gray-300 text-lg">
-            Interactive structural dynamics demonstration showing how buildings respond to seismic forces.
+          <h1 className="heading-primary text-caps tracking-scientific mb-2">Figure 1. Earthquake Response Simulation</h1>
+          <p className="text-methodology">
+            Interactive structural dynamics demonstration of single-degree-of-freedom system response to harmonic ground excitation.
           </p>
-        </div>
+        </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Animation Canvas */}
+          {/* Visualization Panel */}
           <div className="lg:col-span-2">
-            <div className="bg-gray-800/70 backdrop-blur-sm border border-blue-500/50 rounded-lg p-6">
-              <h2 className="text-2xl font-semibold text-blue-300 mb-4">Structure Response Visualization</h2>
+            <div className="panel-scientific p-6 border-precise-2">
+              <h2 className="text-figure-title mb-4">A. DYNAMIC RESPONSE VISUALIZATION</h2>
               
               <canvas 
                 ref={canvasRef}
                 width={600}
                 height={400}
-                className="border border-gray-600 rounded-lg w-full bg-gray-900"
+                className="border-2 border-mono-black w-full bg-mono-white chart-grid"
               />
               
-              <div className="flex gap-4 mt-4">
+              <div className="flex gap-2 mt-4 text-xs">
                 <button
                   onClick={startSimulation}
                   disabled={isPlaying}
-                  className="px-6 py-2 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 text-white rounded-lg transition-colors"
+                  className="btn-scientific disabled:bg-mono-300 disabled:text-mono-500"
                 >
-                  Start
+                  START
                 </button>
                 <button
                   onClick={stopSimulation}
                   disabled={!isPlaying}
-                  className="px-6 py-2 bg-red-600 hover:bg-red-700 disabled:bg-gray-600 text-white rounded-lg transition-colors"
+                  className="btn-scientific disabled:bg-mono-300 disabled:text-mono-500"
                 >
-                  Stop
+                  STOP
                 </button>
                 <button
                   onClick={resetSimulation}
-                  className="px-6 py-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg transition-colors"
+                  className="btn-scientific"
                 >
-                  Reset
+                  RESET
                 </button>
-                <label className="flex items-center gap-2 text-gray-300">
+                <label className="flex items-center gap-2 ml-4 text-data-label">
                   <input
                     type="checkbox"
                     checked={voiceEnabled}
                     onChange={(e) => setVoiceEnabled(e.target.checked)}
-                    className="rounded"
+                    className="border border-mono-black"
                   />
-                  Voice narration
+                  NARRATION
                 </label>
               </div>
             </div>
@@ -264,47 +380,47 @@ export default function EarthquakeSimulation() {
           {/* Parameter Controls */}
           <div className="space-y-6">
             {/* Structural Parameters */}
-            <div className="bg-gray-800/70 backdrop-blur-sm border border-blue-500/50 rounded-lg p-6">
-              <h2 className="text-2xl font-semibold text-blue-300 mb-4">Structural Parameters</h2>
+            <div className="panel-scientific p-4 border-precise-2">
+              <h3 className="text-figure-title mb-4">B. STRUCTURAL PARAMETERS</h3>
               
-              <div className="space-y-4">
+              <div className="space-y-3">
                 <div>
-                  <label className="block text-gray-300 text-sm font-medium mb-1">
-                    Mass (kg)
+                  <label className="text-data-label block mb-1">
+                    MASS (kg)
                   </label>
                   <input
                     type="number"
                     value={parameters.mass}
                     onChange={(e) => handleParameterChange('mass', e.target.value)}
-                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="input-scientific w-full text-tabular"
                     min="100"
                     step="100"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-gray-300 text-sm font-medium mb-1">
-                    Stiffness (N/m)
+                  <label className="text-data-label block mb-1">
+                    STIFFNESS (N/m)
                   </label>
                   <input
                     type="number"
                     value={parameters.stiffness}
                     onChange={(e) => handleParameterChange('stiffness', e.target.value)}
-                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="input-scientific w-full text-tabular"
                     min="1000"
                     step="1000"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-gray-300 text-sm font-medium mb-1">
-                    Damping Ratio
+                  <label className="text-data-label block mb-1">
+                    DAMPING RATIO (ζ)
                   </label>
                   <input
                     type="number"
                     value={parameters.damping}
                     onChange={(e) => handleParameterChange('damping', e.target.value)}
-                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="input-scientific w-full text-tabular"
                     min="0.01"
                     max="1.0"
                     step="0.01"
@@ -314,33 +430,33 @@ export default function EarthquakeSimulation() {
             </div>
 
             {/* Earthquake Parameters */}
-            <div className="bg-gray-800/70 backdrop-blur-sm border border-red-500/50 rounded-lg p-6">
-              <h2 className="text-2xl font-semibold text-red-300 mb-4">Earthquake Parameters</h2>
+            <div className="panel-scientific p-4 border-precise-2">
+              <h3 className="text-figure-title mb-4">C. EXCITATION PARAMETERS</h3>
               
-              <div className="space-y-4">
+              <div className="space-y-3">
                 <div>
-                  <label className="block text-gray-300 text-sm font-medium mb-1">
-                    Ground Acceleration (m/s²)
+                  <label className="text-data-label block mb-1">
+                    GROUND ACCEL (m/s²)
                   </label>
                   <input
                     type="number"
                     value={parameters.groundAccel}
                     onChange={(e) => handleParameterChange('groundAccel', e.target.value)}
-                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-red-500"
+                    className="input-scientific w-full text-tabular"
                     min="0.1"
                     step="0.1"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-gray-300 text-sm font-medium mb-1">
-                    Frequency (Hz)
+                  <label className="text-data-label block mb-1">
+                    FREQUENCY (Hz)
                   </label>
                   <input
                     type="number"
                     value={parameters.frequency}
                     onChange={(e) => handleParameterChange('frequency', e.target.value)}
-                    className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-red-500"
+                    className="input-scientific w-full text-tabular"
                     min="0.1"
                     step="0.1"
                   />
@@ -349,25 +465,25 @@ export default function EarthquakeSimulation() {
             </div>
 
             {/* Calculated Values */}
-            <div className="bg-gray-800/70 backdrop-blur-sm border border-green-500/50 rounded-lg p-6">
-              <h2 className="text-2xl font-semibold text-green-300 mb-4">Calculated Properties</h2>
+            <div className="panel-scientific p-4 border-precise-2">
+              <h3 className="text-figure-title mb-4">D. CALCULATED PROPERTIES</h3>
               
-              <div className="space-y-3 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Natural Frequency:</span>
-                  <span className="text-green-400 font-mono">{parameters.naturalFreq.toFixed(3)} Hz</span>
+              <div className="space-y-2 text-xs">
+                <div className="flex justify-between border-b border-mono-300 pb-1">
+                  <span className="text-data-label">NATURAL FREQ:</span>
+                  <span className="text-data-value">{parameters.naturalFreq.toFixed(3)} Hz</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Natural Period:</span>
-                  <span className="text-green-400 font-mono">{parameters.period.toFixed(3)} s</span>
+                <div className="flex justify-between border-b border-mono-300 pb-1">
+                  <span className="text-data-label">PERIOD:</span>
+                  <span className="text-data-value">{parameters.period.toFixed(3)} s</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Frequency Ratio:</span>
-                  <span className="text-green-400 font-mono">{(parameters.frequency / parameters.naturalFreq).toFixed(3)}</span>
+                <div className="flex justify-between border-b border-mono-300 pb-1">
+                  <span className="text-data-label">FREQ RATIO:</span>
+                  <span className="text-data-value">{(parameters.frequency / parameters.naturalFreq).toFixed(3)}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Current Displacement:</span>
-                  <span className="text-green-400 font-mono">{displacement.toFixed(1)} mm</span>
+                <div className="flex justify-between border-b border-mono-300 pb-1">
+                  <span className="text-data-label">DISPLACEMENT:</span>
+                  <span className="text-data-value">{displacement.toFixed(1)} mm</span>
                 </div>
               </div>
             </div>
@@ -375,24 +491,24 @@ export default function EarthquakeSimulation() {
         </div>
 
         {/* Engineering Notes */}
-        <div className="mt-6 bg-gray-800/70 backdrop-blur-sm border border-yellow-500/50 rounded-lg p-6">
-          <h2 className="text-2xl font-semibold text-yellow-300 mb-4">Engineering Insights</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-300">
+        <div className="mt-8 panel-scientific p-6 border-precise-2">
+          <h2 className="text-figure-title mb-4">ENGINEERING ANALYSIS</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
             <div>
-              <h3 className="font-semibold text-yellow-400 mb-2">Resonance Effect</h3>
-              <p>When earthquake frequency matches the structure's natural frequency, amplification is maximum. This is why understanding natural periods is critical in seismic design.</p>
+              <h4 className="text-data-value mb-2">RESONANCE PHENOMENON</h4>
+              <p className="text-methodology leading-relaxed">Maximum amplification occurs when excitation frequency (f) approaches natural frequency (f₀). Critical for seismic design considerations.</p>
             </div>
             <div>
-              <h3 className="font-semibold text-yellow-400 mb-2">Damping Importance</h3>
-              <p>Higher damping reduces structural response amplitude. Modern buildings incorporate various damping systems to limit earthquake damage.</p>
+              <h4 className="text-data-value mb-2">DAMPING EFFECTS</h4>
+              <p className="text-methodology leading-relaxed">Damping ratio (ζ) controls response amplitude. Typical values: 0.02-0.05 for steel, 0.03-0.08 for concrete structures.</p>
             </div>
             <div>
-              <h3 className="font-semibold text-yellow-400 mb-2">Mass vs. Stiffness</h3>
-              <p>The natural frequency depends on the square root of stiffness-to-mass ratio. Stiffer structures have higher natural frequencies.</p>
+              <h4 className="text-data-value mb-2">FREQUENCY RELATIONSHIP</h4>
+              <p className="text-methodology leading-relaxed">Natural frequency: f₀ = (1/2π)√(k/m). Higher stiffness-to-mass ratio increases natural frequency.</p>
             </div>
             <div>
-              <h3 className="font-semibold text-yellow-400 mb-2">Design Strategy</h3>
-              <p>Engineers design buildings to avoid resonance with expected ground motion frequencies, typically 0.5-10 Hz for earthquakes.</p>
+              <h4 className="text-data-value mb-2">DESIGN IMPLICATIONS</h4>
+              <p className="text-methodology leading-relaxed">Structures designed to avoid resonance with dominant earthquake frequencies (0.5-10 Hz typical range).</p>
             </div>
           </div>
         </div>
