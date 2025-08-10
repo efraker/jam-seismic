@@ -2,120 +2,214 @@
 @tailwind components;
 @tailwind utilities;
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* === SCIENTIFIC THEME IMPORTS === */
+@import './styles/theme.css';
+@import './styles/typography.css';
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* === MONOSPACE FONT IMPORTS === */
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap');
 
-/* --- REPLACE your previous neon styles with EVERYTHING BELOW --- */
-
-/* Import the Orbitron font */
-/* @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');*/
-
-/* Import a pixel font for a retro game feel */
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-
-/* Define color variables with default fallbacks */
-:root {
-    --color1: #ff00de; /* Default: Magenta */
-    --color2: #00f7ff; /* Default: Cyan */
-}
-
-/* Style for the new outer frame */
-.neon-sign-frame {
-  /* This creates a neon tube border using the second random color */
-  border: 4px solid var(--color2);
-  border-radius: 2rem;
-  padding: 1.5rem 1rem;
-  box-shadow: 
-    0 0 5px var(--color2),
-    0 0 10px var(--color2),
-    0 0 20px var(--color2),
-    inset 0 0 5px var(--color2);
-  animation: flicker 1.5s infinite alternate; /* Make the border flicker too! */
-  animation-delay: 0.5s; /* Delay it slightly from the text */
-}
-
-/* A simple dark backing for the text */
-.neon-sign-backing {
-  background-color: #08020c; /* Very dark purple/black */
-  border-radius: 1.5rem;
-  padding: 1rem 3rem;
-}
-
-.line1, .line2 {
-/*    font-family: 'Orbitron', sans-serif;*/
-    font-family: 'Press Start 2P', cursive;
-    display: block;
-    text-transform: uppercase;
+/* === BASE LAYER OVERRIDES === */
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+  
+  html {
+    font-family: var(--font-mono);
+    line-height: var(--leading-normal);
+    color: var(--text-primary);
+    background-color: var(--bg-primary);
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-mono);
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    color: var(--text-primary);
+    background-color: var(--bg-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Reset headings to use monospace */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-mono);
     font-weight: bold;
-    text-align: center;
-    animation: flicker 1.5s infinite alternate;
+    color: var(--text-primary);
+  }
+  
+  /* Form elements styling */
+  input, textarea, select, button {
+    font-family: var(--font-mono);
+    font-size: inherit;
+  }
+  
+  /* Link styling */
+  a {
+    color: var(--text-primary);
+    text-decoration: underline;
+  }
+  
+  a:hover {
+    background-color: var(--state-hover);
+  }
 }
 
-/* Style for the first line */
-.line1 {
-    font-size: 4rem; /* Adjusted for frame */
-    color: var(--color1);
-    text-shadow:
-        0 0 2px #fff,
-        0 0 5px #fff,
-        0 0 10px #fff,
-        0 0 20px var(--color1),
-        0 0 35px var(--color1),
-        0 0 40px var(--color1);
+/* === COMPONENT LAYER === */
+@layer components {
+  /* Scientific UI Components */
+  .btn-scientific {
+    @apply font-mono text-sm uppercase tracking-wider;
+    @apply border-2 border-gray-900 bg-gray-100 text-gray-900;
+    @apply px-4 py-2 transition-all duration-100;
+  }
+  
+  .btn-scientific:hover {
+    @apply bg-gray-200 transform -translate-y-px;
+  }
+  
+  .btn-scientific:active {
+    @apply bg-gray-300 transform translate-y-0;
+  }
+  
+  .input-scientific {
+    @apply font-mono text-sm bg-white border-2 border-gray-900;
+    @apply px-3 py-2 focus:outline-none focus:ring-1 focus:ring-gray-900;
+  }
+  
+  .panel-scientific {
+    @apply bg-gray-100 border-2 border-gray-900;
+    @apply shadow-none;
+  }
+  
+  .text-scientific {
+    @apply font-mono text-gray-900;
+  }
+  
+  /* Grid overlays for charts */
+  .chart-grid {
+    background-image: 
+      linear-gradient(to right, var(--chart-grid-minor) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--chart-grid-minor) 1px, transparent 1px),
+      linear-gradient(to right, var(--chart-grid-major) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--chart-grid-major) 1px, transparent 1px);
+    background-size: 
+      var(--grid-minor) var(--grid-minor),
+      var(--grid-minor) var(--grid-minor),
+      var(--grid-major) var(--grid-major),
+      var(--grid-major) var(--grid-major);
+  }
 }
 
-/* Style for the second line */
-.line2 {
-    font-size: 3rem; /* Adjusted for frame */
-    color: var(--color2);
-    animation-delay: 0.2s;
-    text-shadow:
-        0 0 2px #fff,
-        0 0 5px #fff,
-        0 0 10px #fff,
-        0 0 20px var(--color2),
-        0 0 35px var(--color2),
-        0 0 40px var(--color2);
+/* === UTILITY LAYER === */
+@layer utilities {
+  /* Monochrome color utilities */
+  .bg-mono-white { background-color: var(--color-white); }
+  .bg-mono-100 { background-color: var(--color-gray-100); }
+  .bg-mono-200 { background-color: var(--color-gray-200); }
+  .bg-mono-300 { background-color: var(--color-gray-300); }
+  .bg-mono-400 { background-color: var(--color-gray-400); }
+  .bg-mono-500 { background-color: var(--color-gray-500); }
+  .bg-mono-600 { background-color: var(--color-gray-600); }
+  .bg-mono-700 { background-color: var(--color-gray-700); }
+  .bg-mono-800 { background-color: var(--color-gray-800); }
+  .bg-mono-900 { background-color: var(--color-gray-900); }
+  .bg-mono-black { background-color: var(--color-black); }
+  
+  .text-mono-white { color: var(--color-white); }
+  .text-mono-100 { color: var(--color-gray-100); }
+  .text-mono-200 { color: var(--color-gray-200); }
+  .text-mono-300 { color: var(--color-gray-300); }
+  .text-mono-400 { color: var(--color-gray-400); }
+  .text-mono-500 { color: var(--color-gray-500); }
+  .text-mono-600 { color: var(--color-gray-600); }
+  .text-mono-700 { color: var(--color-gray-700); }
+  .text-mono-800 { color: var(--color-gray-800); }
+  .text-mono-900 { color: var(--color-gray-900); }
+  .text-mono-black { color: var(--color-black); }
+  
+  .border-mono-black { border-color: var(--color-black); }
+  .border-mono-900 { border-color: var(--color-gray-900); }
+  .border-mono-800 { border-color: var(--color-gray-800); }
+  .border-mono-600 { border-color: var(--color-gray-600); }
+  .border-mono-400 { border-color: var(--color-gray-400); }
+  .border-mono-300 { border-color: var(--color-gray-300); }
+  
+  /* Data series styling */
+  .bg-data-1 { background-color: var(--data-series-1); }
+  .bg-data-2 { background-color: var(--data-series-2); }
+  .bg-data-3 { background-color: var(--data-series-3); }
+  .bg-data-4 { background-color: var(--data-series-4); }
+  .bg-data-5 { background-color: var(--data-series-5); }
+  
+  /* Pattern utilities */
+  .pattern-hatched { background-image: var(--pattern-hatched); }
+  .pattern-dotted { 
+    background-image: var(--pattern-dotted);
+    background-size: 4px 4px;
+  }
+  .pattern-sparse { background-image: var(--pattern-sparse); }
+  
+  /* Academic spacing */
+  .space-academic > * + * { margin-top: var(--spacing-md); }
+  .space-compact > * + * { margin-top: var(--spacing-sm); }
+  .space-dense > * + * { margin-top: var(--spacing-xs); }
+  
+  /* Precise borders */
+  .border-precise { border-width: var(--border-thin); }
+  .border-precise-2 { border-width: var(--border-normal); }
+  .border-precise-3 { border-width: var(--border-thick); }
+  
+  /* Typography utilities */
+  .font-tabular { font-variant-numeric: tabular-nums; }
+  .tracking-academic { letter-spacing: 0.05em; }
+  .tracking-scientific { letter-spacing: 0.1em; }
 }
 
-/* The flicker animation */
-@keyframes flicker {
-    0%, 18%, 22%, 25%, 53%, 57%, 100% {
-        opacity: 1;
-    }
-    20%, 24%, 55% {        
-        opacity: 0.6;
-    }
+/* === LEGACY OVERRIDES FOR GRADUAL MIGRATION === */
+/* Override Tailwind's colored backgrounds with monochrome equivalents */
+.bg-blue-400,
+.bg-blue-500,
+.bg-blue-600,
+.bg-blue-700 {
+  background-color: var(--color-gray-600) !important;
 }
 
-/* --- Animated Starfield Background --- */
-@keyframes move-twink-back {
-    from {background-position:0 0;}
-    to {background-position:-10000px 5000px;}
+.text-blue-400,
+.text-blue-300 {
+  color: var(--text-primary) !important;
 }
 
-.stars, .twinkling {
-  position:absolute;
-  top:0;
-  left:0;
-  right:0;
-  bottom:0;
-  width:100%;
-  height:100%;
-  display:block;
-  z-index: -1; /* Place it behind all content */
+.border-blue-500 {
+  border-color: var(--border-primary) !important;
 }
 
-.stars {
-  background:#000 url(https://www.wearewebstars.com/assets/images/stars.png) repeat top center;
+.text-gray-100,
+.text-gray-300,
+.text-gray-400 {
+  color: var(--text-secondary) !important;
 }
 
-.twinkling{
-  background:transparent url(https://www.wearewebstars.com/assets/images/twinkling.png) repeat top center;
-  animation:move-twink-back 200s linear infinite;
+/* Remove all gradients and replace with solid backgrounds */
+.bg-gradient-to-br {
+  background: var(--bg-primary) !important;
+}
+
+.bg-slate-900,
+.bg-slate-800 {
+  background-color: var(--bg-primary) !important;
+}
+
+/* Simplify shadows */
+.shadow-lg,
+.shadow-xl {
+  box-shadow: 2px 2px 0 var(--color-gray-800) !important;
+}
+
+/* Remove backdrop blur effects */
+.backdrop-blur-sm {
+  backdrop-filter: none !important;
 }

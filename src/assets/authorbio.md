@@ -1,4 +1,7 @@
-# About Me
+# AUTHOR BIOGRAPHY
+
+JEROME MAURSETH, P.E., Ph.D.
+U.S. ARMY CORPS OF ENGINEERS (RETIRED)
 
 My name is Jerome Maurseth and I'd like to share some insights from my decades as a civil engineer with the US Army Corps of Engineers. 
 

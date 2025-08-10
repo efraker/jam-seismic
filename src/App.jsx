@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import aboutmeContent from './assets/aboutme.md?raw';
+import authorBioContent from './assets/authorbio.md?raw';
 import './index.css';
 
 // --- SOUND SETUP ---
@@ -41,8 +41,8 @@ const simulations = Object.keys(simulationModules).map((path) => {
 });
 
 // --- COMPONENTS ---
-function AboutMe() {
-  const [aboutContent] = useState(aboutmeContent);
+function AuthorBio() {
+  const [bioContent] = useState(authorBioContent);
   
   const formatMarkdown = (text) => {
     return text
@@ -57,7 +57,7 @@ function AboutMe() {
     <div className="bg-gray-800/70 backdrop-blur-sm border border-blue-500/50 p-8 rounded-lg shadow-lg mb-8">
       <div 
         dangerouslySetInnerHTML={{ 
-          __html: formatMarkdown(aboutContent) 
+          __html: formatMarkdown(bioContent) 
         }} 
       />
     </div>
@@ -81,7 +81,7 @@ function SimulationMenu() {
           Civil Engineering Simulations
         </h1>
         
-        <AboutMe />
+        <AuthorBio />
         
         {simulations.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl mt-4">

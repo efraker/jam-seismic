@@ -1,0 +1,201 @@
+/**
+ * Scientific Typography System
+ * Academic publication styling with monospace emphasis
+ */
+
+/* === BASE TYPOGRAPHY === */
+body {
+  font-family: var(--font-mono);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* === HEADING HIERARCHY === */
+.heading-primary {
+  font-family: var(--font-mono);
+  font-size: var(--text-3xl);
+  font-weight: bold;
+  line-height: var(--leading-tight);
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-lg);
+}
+
+.heading-secondary {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xl);
+  font-weight: bold;
+  line-height: var(--leading-tight);
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-md);
+}
+
+.heading-tertiary {
+  font-family: var(--font-mono);
+  font-size: var(--text-xl);
+  font-weight: bold;
+  line-height: var(--leading-normal);
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+/* === ACADEMIC FORMATTING === */
+.text-caps {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.text-figure-title {
+  font-family: var(--font-mono);
+  font-size: var(--text-lg);
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.text-figure-caption {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  color: var(--text-caption);
+  margin-top: var(--spacing-md);
+  padding-top: var(--spacing-sm);
+  border-top: var(--border-thin) solid var(--border-light);
+}
+
+.text-author-bio {
+  font-family: var(--font-mono);
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  color: var(--text-secondary);
+}
+
+.text-methodology {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+/* === TECHNICAL TEXT === */
+.text-data-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-tertiary);
+}
+
+.text-data-value {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: bold;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.text-units {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+  margin-left: var(--spacing-xs);
+}
+
+.text-reference {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+  font-style: italic;
+}
+
+/* === DENSE INFORMATION LAYOUT === */
+.text-compact {
+  font-size: var(--text-xs);
+  line-height: var(--leading-tight);
+}
+
+.text-tabular {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* === LIST STYLING === */
+.list-academic {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  color: var(--text-secondary);
+}
+
+.list-academic li {
+  margin-bottom: var(--spacing-xs);
+  padding-left: var(--spacing-md);
+}
+
+.list-academic li::marker {
+  color: var(--text-tertiary);
+  font-weight: bold;
+}
+
+/* === CODE AND FORMULAS === */
+.text-formula {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  background-color: var(--bg-tertiary);
+  border: var(--border-thin) solid var(--border-light);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: 0;
+  display: inline-block;
+}
+
+.text-code {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  background-color: var(--bg-tertiary);
+  padding: var(--spacing-xs);
+  border: var(--border-thin) solid var(--border-light);
+}
+
+/* === UTILITY CLASSES === */
+.font-mono { font-family: var(--font-mono); }
+.font-sans { font-family: var(--font-sans); }
+
+.text-xs { font-size: var(--text-xs); }
+.text-sm { font-size: var(--text-sm); }
+.text-base { font-size: var(--text-base); }
+.text-lg { font-size: var(--text-lg); }
+.text-xl { font-size: var(--text-xl); }
+.text-2xl { font-size: var(--text-2xl); }
+.text-3xl { font-size: var(--text-3xl); }
+
+.leading-tight { line-height: var(--leading-tight); }
+.leading-normal { line-height: var(--leading-normal); }
+.leading-relaxed { line-height: var(--leading-relaxed); }
+
+.text-primary { color: var(--text-primary); }
+.text-secondary { color: var(--text-secondary); }
+.text-tertiary { color: var(--text-tertiary); }
+.text-caption { color: var(--text-caption); }
+
+/* === RESPONSIVE TYPOGRAPHY === */
+@media (max-width: 768px) {
+  .heading-primary {
+    font-size: var(--text-2xl);
+  }
+  
+  .heading-secondary {
+    font-size: var(--text-xl);
+  }
+  
+  .text-figure-caption {
+    font-size: var(--text-xs);
+  }
+}
