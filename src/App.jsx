@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import aboutmeContent from './assets/aboutme.md?raw';
 import './index.css';
 
 // --- SOUND SETUP ---
@@ -41,14 +42,7 @@ const simulations = Object.keys(simulationModules).map((path) => {
 
 // --- COMPONENTS ---
 function AboutMe() {
-  const [aboutContent, setAboutContent] = useState('');
-  
-  useEffect(() => {
-    fetch('/aboutme.md')
-      .then(response => response.text())
-      .then(text => setAboutContent(text))
-      .catch(err => console.error('Error loading about content:', err));
-  }, []);
+  const [aboutContent] = useState(aboutmeContent);
   
   const formatMarkdown = (text) => {
     return text
