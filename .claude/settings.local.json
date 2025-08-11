@@ -21,7 +21,8 @@
       "Bash(mv:*)",
       "Bash(cp:*)",
       "Bash(git fetch:*)",
-      "WebFetch(domain:www.biostat.wisc.edu)"
+      "WebFetch(domain:www.biostat.wisc.edu)",
+      "Bash(grep:*)"
     ],
     "deny": []
   }
