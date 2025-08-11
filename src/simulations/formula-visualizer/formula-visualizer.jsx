@@ -5,6 +5,7 @@ import { Figure } from '../../components/scientific/Figure';
 import { FormulaLibrary, InteractiveFormula } from '../../components/content/FormulaDisplay';
 import { FORMULAS, MATERIAL_PROPERTIES } from '../../constants/engineering';
 import * as WolframAlpha from '../../services/wolframAlpha';
+import { createCanvasProps } from '../../utils/canvasUtils';
 
 export default function FormulaVisualizer() {
   const canvasRef = useRef(null);
@@ -571,10 +572,7 @@ export default function FormulaVisualizer() {
       <div className="visualization-container">
         <canvas
           ref={canvasRef}
-          width={600}
-          height={400}
-          className="border-2 border-mono-400 bg-mono-100"
-          style={{ width: '100%', height: 'auto' }}
+          {...createCanvasProps('large')}
         />
       </div>
     </Figure>

@@ -9,21 +9,42 @@ export const CANVAS_SIZES = {
   large: {
     width: 1200,
     height: 800,
-    className: "border-2 border-mono-400 bg-mono-100 w-full max-w-none"
+    className: "border-2 border-mono-400 bg-mono-100",
+    style: { 
+      width: '1200px', 
+      height: '800px',
+      maxWidth: 'none',
+      display: 'block',
+      margin: '0 auto'
+    }
   },
   
   // Medium canvas for formula visualizations
   medium: {
     width: 900,
     height: 600,
-    className: "border-2 border-mono-400 bg-mono-100 w-full max-w-none"
+    className: "border-2 border-mono-400 bg-mono-100",
+    style: { 
+      width: '900px', 
+      height: '600px',
+      maxWidth: 'none',
+      display: 'block',
+      margin: '0 auto'
+    }
   },
   
   // Small canvas for compact visualizations
   small: {
     width: 600,
     height: 400,
-    className: "border-2 border-mono-400 bg-mono-100 w-full"
+    className: "border-2 border-mono-400 bg-mono-100",
+    style: { 
+      width: '600px', 
+      height: '400px',
+      maxWidth: 'none',
+      display: 'block',
+      margin: '0 auto'
+    }
   }
 };
 
@@ -108,7 +129,7 @@ export function drawGrid(ctx, width, height, gridSize = 20, gridColor = '#f0f0f0
 }
 
 /**
- * Create a responsive canvas component props object
+ * Create a canvas component props object with proper sizing
  * @param {string} sizeType - Canvas size type
  * @param {object} additionalProps - Additional canvas props
  * @returns {object} Canvas props object
@@ -120,11 +141,7 @@ export function createCanvasProps(sizeType = 'medium', additionalProps = {}) {
     width: config.width,
     height: config.height,
     className: config.className,
-    style: { 
-      width: '100%', 
-      height: 'auto',
-      maxWidth: 'none' // Allow full width scaling
-    },
+    style: config.style,
     ...additionalProps
   };
 }
