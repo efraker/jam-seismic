@@ -582,7 +582,7 @@ export default function SoilStructureInteraction() {
     >
       <canvas
         ref={canvasRef}
-        {...createCanvasProps('large')}
+        {...createCanvasProps('constrained')}
       />
     </Figure>
   );
@@ -593,18 +593,19 @@ export default function SoilStructureInteraction() {
       <header className="text-center py-8 border-b-2 border-mono-400 bg-mono-white">
         <h1 className="text-3xl font-bold mb-2">Soil-Structure Interaction</h1>
         <p className="text-lg text-mono-600">Foundation Design with Geotechnical Considerations</p>
+        <p className="text-sm text-mono-600 mt-2">Jerome Maurseth, P.E., US ACE, Ret'd.</p>
       </header>
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8" style={{ maxWidth: '900px' }}>
         {/* Large Visualization Section */}
         <section className="mb-8">
           {visualization}
         </section>
 
         {/* Controls Section Below */}
-        <section className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Parameters */}
-          <div className="lg:col-span-2">
+          <div>
             {parameterPanel}
           </div>
           

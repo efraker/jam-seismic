@@ -570,7 +570,7 @@ export default function LoadPathTracer() {
     >
       <canvas
         ref={canvasRef}
-        {...createCanvasProps('large')}
+        {...createCanvasProps('constrained')}
       />
       
       {/* Legend */}
@@ -600,40 +600,53 @@ export default function LoadPathTracer() {
   );
 
   return (
-    <SimulationLayout
-      title="Load Path Tracer"
-      subtitle="Visualizing Force Flow Through Structural Systems"
-      parameterPanel={parameterPanel}
-      visualization={visualization}
-    >
-      
-      {/* Educational Content */}
-      <section className="panel-scientific p-6 border-precise-2 mt-8">
-        <h3 className="text-data-value text-lg mb-4">Understanding Load Paths</h3>
+    <div className="academic-page min-h-screen bg-mono-100 text-mono-black font-mono leading-snug">
+      {/* Header */}
+      <header className="text-center py-8 border-b-2 border-mono-400 bg-mono-white">
+        <h1 className="text-3xl font-bold mb-2">Load Path Tracer</h1>
+        <p className="text-lg text-mono-600">Visualizing Force Flow Through Structural Systems</p>
+        <p className="text-sm text-mono-600 mt-2">Jerome Maurseth, P.E., US ACE, Ret'd.</p>
+      </header>
+
+      <div className="container mx-auto px-4 py-8" style={{ maxWidth: '900px' }}>
+        {/* Parameters Section */}
+        <section className="mb-8">
+          {parameterPanel}
+        </section>
+
+        {/* Large Visualization Section */}
+        <section className="mb-8">
+          {visualization}
+        </section>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <h4 className="text-data-label mb-2">Key Concepts</h4>
-            <ul className="text-methodology text-sm space-y-1">
-              <li>• <strong>Load Path:</strong> Route forces take from application to foundation</li>
-              <li>• <strong>Stiffness:</strong> Controls distribution of forces between elements</li>
-              <li>• <strong>Continuity:</strong> Ensures forces have complete path to supports</li>
-              <li>• <strong>Redundancy:</strong> Multiple paths provide backup if one fails</li>
-            </ul>
-          </div>
+        {/* Educational Content */}
+        <section className="panel-scientific p-6 border-precise-2 mt-8">
+          <h3 className="text-data-value text-lg mb-4">Understanding Load Paths</h3>
           
-          <div>
-            <h4 className="text-data-label mb-2">Structural Systems</h4>
-            <ul className="text-methodology text-sm space-y-1">
-              <li>• <strong>Frames:</strong> Moment connections allow force redistribution</li>
-              <li>• <strong>Trusses:</strong> Pin connections create predictable force paths</li>
-              <li>• <strong>Shear Walls:</strong> Resist lateral forces through cantilever action</li>
-              <li>• <strong>Simple Beams:</strong> Direct load transfer to supports</li>
-            </ul>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <h4 className="text-data-label mb-2">Key Concepts</h4>
+              <ul className="text-methodology text-sm space-y-1">
+                <li>• <strong>Load Path:</strong> Route forces take from application to foundation</li>
+                <li>• <strong>Stiffness:</strong> Controls distribution of forces between elements</li>
+                <li>• <strong>Continuity:</strong> Ensures forces have complete path to supports</li>
+                <li>• <strong>Redundancy:</strong> Multiple paths provide backup if one fails</li>
+              </ul>
+            </div>
+            
+            <div>
+              <h4 className="text-data-label mb-2">Structural Systems</h4>
+              <ul className="text-methodology text-sm space-y-1">
+                <li>• <strong>Frames:</strong> Moment connections allow force redistribution</li>
+                <li>• <strong>Trusses:</strong> Pin connections create predictable force paths</li>
+                <li>• <strong>Shear Walls:</strong> Resist lateral forces through cantilever action</li>
+                <li>• <strong>Simple Beams:</strong> Direct load transfer to supports</li>
+              </ul>
+            </div>
           </div>
-        </div>
-      </section>
-      
-    </SimulationLayout>
+        </section>
+        
+      </div>
+    </div>
   );
 }
