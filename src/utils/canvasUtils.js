@@ -45,6 +45,20 @@ export const CANVAS_SIZES = {
       display: 'block',
       margin: '0 auto'
     }
+  },
+  
+  // Constrained canvas for narrow layouts
+  constrained: {
+    width: 800,
+    height: 500,
+    className: "border-2 border-mono-400 bg-mono-100",
+    style: { 
+      width: '800px', 
+      height: '500px',
+      maxWidth: 'none',
+      display: 'block',
+      margin: '0 auto'
+    }
   }
 };
 

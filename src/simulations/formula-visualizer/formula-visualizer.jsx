@@ -572,29 +572,43 @@ export default function FormulaVisualizer() {
       <div className="visualization-container">
         <canvas
           ref={canvasRef}
-          {...createCanvasProps('large')}
+          {...createCanvasProps('constrained')}
         />
       </div>
     </Figure>
   );
 
   return (
-    <SimulationLayout
-      title="Formula Visualizer"
-      subtitle="Interactive Engineering Formula Explorer"
-      parameterPanel={categorySelection}
-      visualization={visualization}
-    >
-      
-      {/* Active Formula Library */}
-      {formulaCategories[activeCategory] && (
-        <FormulaLibrary
-          title={`${formulaCategories[activeCategory].name} Formulas`}
-          formulas={formulaCategories[activeCategory].formulas}
-          className="mt-8"
-        />
-      )}
-      
-    </SimulationLayout>
+    <div className="academic-page min-h-screen bg-mono-100 text-mono-black font-mono leading-snug">
+      {/* Header */}
+      <header className="text-center py-8 border-b-2 border-mono-400 bg-mono-white">
+        <h1 className="text-3xl font-bold mb-2">Formula Visualizer</h1>
+        <p className="text-lg text-mono-600">Interactive Engineering Formula Explorer</p>
+        <p className="text-sm text-mono-600 mt-2">Jerome Maurseth, P.E., US ACE, Ret'd.</p>
+      </header>
+
+      <div className="container mx-auto px-4 py-8" style={{ maxWidth: '900px' }}>
+        {/* Parameters Section */}
+        <section className="mb-8">
+          {categorySelection}
+        </section>
+
+        {/* Large Visualization Section */}
+        <section className="mb-8">
+          {visualization}
+        </section>
+        
+        {/* Active Formula Library */}
+        {formulaCategories[activeCategory] && (
+          <section className="mt-8">
+            <FormulaLibrary
+              title={`${formulaCategories[activeCategory].name} Formulas`}
+              formulas={formulaCategories[activeCategory].formulas}
+            />
+          </section>
+        )}
+        
+      </div>
+    </div>
   );
 }
