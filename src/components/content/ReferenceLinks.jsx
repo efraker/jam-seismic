@@ -86,7 +86,17 @@ export function ReferenceLinks({
             {filteredLinks.map((link, index) => (
               <div key={index} className="reference-link border-b border-mono-300 pb-3 last:border-b-0">
                 <div className="flex items-start justify-between mb-1">
-                  <h4 className="text-data-value font-semibold">{link.name}</h4>
+                  <h4 className="text-data-value font-semibold">
+                    <a
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-data-value hover:text-mono-black hover:underline"
+                      title={`Visit ${link.name}`}
+                    >
+                      {link.name}
+                    </a>
+                  </h4>
                   <div className="flex gap-2 ml-4">
                     {link.category && categories[link.category] && (
                       <span className="text-xs bg-mono-200 px-2 py-1 border">
