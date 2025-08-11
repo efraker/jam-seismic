@@ -71,49 +71,25 @@ export default function EngineeringReferenceLibrary() {
     }
   };
   
-  // Claude development quick access links
-  const claudeLinks = [
+  // Newsletter subscription and staying updated links
+  const stayUpdatedLinks = [
     {
-      name: 'Claude Code',
-      url: CLAUDE_INTEGRATION.claudeCode,
-      description: 'AI development assistant for coding',
-      icon: '🤖'
+      name: 'ASCE News',
+      url: 'https://www.asce.org/news',
+      description: 'Latest civil engineering news and updates',
+      icon: '📰'
     },
     {
-      name: 'Claude Web',
-      url: CLAUDE_INTEGRATION.claudeWeb,
-      description: 'Claude web interface',
-      icon: '💬'
+      name: 'Engineering News-Record',
+      url: 'https://www.enr.com/',
+      description: 'Construction industry news and rankings',
+      icon: '🏗️'
     },
     {
-      name: 'Anthropic Docs',
-      url: CLAUDE_INTEGRATION.docs,
-      description: 'Claude documentation and guides',
-      icon: '📚'
-    }
-  ];
-  
-  // Quick development prompts for Jerome
-  const developmentPrompts = [
-    {
-      title: 'Add New Simulation',
-      prompt: CLAUDE_INTEGRATION.quickPrompts.addSimulation,
-      description: 'Get help implementing a new civil engineering simulation'
-    },
-    {
-      title: 'Debug Issue',
-      prompt: CLAUDE_INTEGRATION.quickPrompts.debugIssue,
-      description: 'Troubleshoot problems with the platform'
-    },
-    {
-      title: 'Enhance Visualization',
-      prompt: CLAUDE_INTEGRATION.quickPrompts.enhanceVisualization,
-      description: 'Improve simulation graphics and interactivity'
-    },
-    {
-      title: 'Add Formula',
-      prompt: CLAUDE_INTEGRATION.quickPrompts.addFormula,
-      description: 'Implement new engineering calculations'
+      name: 'Structural Engineering Magazine',
+      url: 'https://www.structuremag.org/',
+      description: 'Structural engineering practice and innovation',
+      icon: '🏢'
     }
   ];
   
@@ -136,48 +112,18 @@ export default function EngineeringReferenceLibrary() {
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           
-          {/* Claude AI Development Links */}
+          {/* Industry News & Updates */}
           <div>
             <QuickLinks 
-              title="Claude AI Development"
-              links={claudeLinks}
+              title="Stay Updated"
+              links={stayUpdatedLinks}
               variant="vertical"
             />
-            
-            {/* Development Prompts */}
-            <div className="mt-4 panel-scientific p-4 border-precise-2">
-              <h4 className="text-data-label mb-3">Development Prompts</h4>
-              <div className="space-y-2">
-                {developmentPrompts.map((prompt, index) => (
-                  <div key={index} className="prompt-item">
-                    <div className="flex items-center justify-between">
-                      <h5 className="text-data-value text-sm font-medium">{prompt.title}</h5>
-                      <ControlButton
-                        onClick={() => {
-                          const claudeUrl = CLAUDE_INTEGRATION.generatePromptLink(prompt.prompt);
-                          window.open(claudeUrl, '_blank');
-                        }}
-                        variant="secondary"
-                        className="text-xs px-2 py-1"
-                      >
-                        Use Prompt
-                      </ControlButton>
-                    </div>
-                    <p className="text-methodology text-xs mt-1">{prompt.description}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
           
           {/* Newsletter Subscription */}
           <div>
             <NewsletterIntegration />
-            
-            {/* Project Links */}
-            <div className="mt-4">
-              <DevelopmentLinks />
-            </div>
           </div>
         </div>
       </section>
@@ -235,40 +181,14 @@ export default function EngineeringReferenceLibrary() {
         />
       </Figure>
       
-      {/* Usage Guidelines */}
+      {/* Developer Notes */}
       <section className="mt-12 panel-scientific p-6 border-precise-2">
-        <h3 className="text-data-value text-lg mb-4">Using This Reference Library</h3>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <h4 className="text-data-label mb-2">For Students</h4>
-            <ul className="text-methodology space-y-1 text-sm">
-              <li>• Start with Professional Organizations for career guidance</li>
-              <li>• Review Design Standards to understand industry requirements</li>
-              <li>• Explore Educational Resources for additional learning</li>
-              <li>• Use Government Resources for real-world data and case studies</li>
-            </ul>
-          </div>
-          
-          <div>
-            <h4 className="text-data-label mb-2">For Professionals</h4>
-            <ul className="text-methodology space-y-1 text-sm">
-              <li>• Access current Design Standards and Codes for project compliance</li>
-              <li>• Use Government Resources for regulatory information</li>
-              <li>• Explore Software & Tools for analysis and design</li>
-              <li>• Stay updated through Professional Organizations</li>
-            </ul>
-          </div>
-        </div>
-        
-        <div className="mt-6 p-4 bg-mono-200 border border-mono-400">
-          <h4 className="text-data-label mb-2">Developer Notes</h4>
-          <p className="text-methodology text-sm">
-            This reference library is designed to be easily expandable. New resources can be added to the 
-            services/externalIntegrations.js file, and they will automatically appear in the appropriate 
-            sections. All links open in new tabs to preserve the user's place in the platform.
-          </p>
-        </div>
+        <h4 className="text-data-label mb-2">Developer Notes</h4>
+        <p className="text-methodology text-sm">
+          This reference library is designed to be easily expandable. New resources can be added to the 
+          services/externalIntegrations.js file, and they will automatically appear in the appropriate 
+          sections. All links open in new tabs to preserve the user's place in the platform.
+        </p>
       </section>
       
     </AcademicPage>

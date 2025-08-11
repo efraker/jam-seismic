@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { SimulationLayout } from '../../components/layout/AcademicPage';
 import { ParameterInput, ParameterPanel, DataDisplay, ControlButton } from '../../components/scientific/ParameterPanel';
 import { Figure } from '../../components/scientific/Figure';
+import { createCanvasProps, clearCanvas, setupCanvasContext } from '../../utils/canvasUtils';
 
 export default function LoadPathTracer() {
   const canvasRef = useRef(null);
@@ -70,14 +71,14 @@ export default function LoadPathTracer() {
     const width = canvas.width;
     const height = canvas.height;
 
-    // Clear canvas
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(0, 0, width, height);
+    // Clear canvas with utility function
+    clearCanvas(canvas);
 
-    // Set drawing properties
-    ctx.strokeStyle = '#000000';
-    ctx.lineWidth = 2;
-    ctx.font = '12px Courier New';
+    // Set up standard drawing context
+    setupCanvasContext(ctx, {
+      lineWidth: 2,
+      font: '16px Courier New' // Larger font for bigger canvas
+    });
 
     switch (structureType) {
       case 'frame':
@@ -569,9 +570,7 @@ export default function LoadPathTracer() {
     >
       <canvas
         ref={canvasRef}
-        width={800}
-        height={500}
-        className="border-2 border-mono-400 bg-mono-100 w-full"
+        {...createCanvasProps('large')}
       />
       
       {/* Legend */}

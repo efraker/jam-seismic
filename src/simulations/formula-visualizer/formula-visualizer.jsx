@@ -38,36 +38,28 @@ export default function FormulaVisualizer() {
           visualizationType: 'beam_deflection'
         },
         {
-          title: 'Simply Supported Beam - Center Deflection',
+          title: 'Simply Supported Beam - Center Deflection (Placeholder)',
           formula: 'δ = (5 × w × L⁴) / (384 × E × I)',
-          description: 'Maximum deflection at center of simply supported beam under uniform load',
-          interactive: true,
-          parameters: [
-            { name: 'w', label: 'Distributed Load', defaultValue: 5000, units: 'N/m', min: 1000, max: 50000, step: 1000 },
-            { name: 'L', label: 'Beam Length', defaultValue: 6, units: 'm', min: 2, max: 15, step: 0.5 },
-            { name: 'E', label: 'Elastic Modulus', defaultValue: 200000, units: 'MPa', min: 10000, max: 300000, step: 1000 },
-            { name: 'I', label: 'Moment of Inertia', defaultValue: 0.0002, units: 'm⁴', min: 0.00001, max: 0.001, step: 0.00001, precision: 6 }
-          ],
+          description: 'Maximum deflection at center of simply supported beam under uniform load - Interactive visualization coming soon',
+          interactive: false,
+          isPlaceholder: true,
           calculation: (params) => FORMULAS.simplySupported_centerDeflection(params.w, params.L, params.E * 1e6, params.I),
           resultLabel: 'Center Deflection',
           resultUnits: 'm',
           wolframBuilder: (params) => WolframAlpha.BEAM_ANALYSIS.simplySupported(params.w, params.L, params.E * 1e6, params.I),
-          visualizationType: 'beam_distributed'
+          visualizationType: 'placeholder'
         },
         {
-          title: 'Maximum Bending Moment',
+          title: 'Maximum Bending Moment (Placeholder)',
           formula: 'M = (w × L²) / 8',
-          description: 'Maximum bending moment for simply supported beam under uniform load',
-          interactive: true,
-          parameters: [
-            { name: 'w', label: 'Distributed Load', defaultValue: 10000, units: 'N/m', min: 1000, max: 100000, step: 1000 },
-            { name: 'L', label: 'Beam Length', defaultValue: 8, units: 'm', min: 2, max: 20, step: 0.5 }
-          ],
+          description: 'Maximum bending moment for simply supported beam under uniform load - Interactive visualization coming soon',
+          interactive: false,
+          isPlaceholder: true,
           calculation: (params) => FORMULAS.maxBendingMoment_distributedLoad(params.w, params.L),
           resultLabel: 'Maximum Moment',
           resultUnits: 'N⋅m',
           wolframBuilder: (params) => WolframAlpha.BEAM_ANALYSIS.bendingMoment(params.w, params.L),
-          visualizationType: 'moment_diagram'
+          visualizationType: 'placeholder'
         }
       ]
     },
@@ -188,6 +180,9 @@ export default function FormulaVisualizer() {
         break;
       case 'amplification_curve':
         drawAmplificationCurve(ctx, width, height, params);
+        break;
+      case 'placeholder':
+        drawPlaceholder(ctx, width, height, formulaData?.title || 'Formula');
         break;
       default:
         drawPlaceholder(ctx, width, height, 'Visualization');
@@ -506,16 +501,33 @@ export default function FormulaVisualizer() {
   };
 
   // Placeholder for unimplemented visualizations
-  const drawPlaceholder = (ctx, width, height, label) => {
+  const drawPlaceholder = (ctx, width, height, label = 'Visualization') => {
+    // Background
+    ctx.fillStyle = '#f8f8f8';
+    ctx.fillRect(0, 0, width, height);
+    
+    // Border
     ctx.strokeStyle = '#cccccc';
     ctx.setLineDash([10, 10]);
     ctx.strokeRect(20, 20, width - 40, height - 40);
     ctx.setLineDash([]);
     
-    ctx.fillStyle = '#666666';
+    // Development icon
+    ctx.fillStyle = '#888888';
     ctx.textAlign = 'center';
-    ctx.font = '16px Courier New';
-    ctx.fillText(label, width/2, height/2);
+    ctx.font = '48px Courier New';
+    ctx.fillText('⚙️', width/2, height/2 - 40);
+    
+    // Main text
+    ctx.fillStyle = '#666666';
+    ctx.font = '20px Courier New';
+    ctx.fillText(`${label} Visualization`, width/2, height/2 + 10);
+    
+    // Status text
+    ctx.font = '14px Courier New';
+    ctx.fillText('Interactive visualization in development', width/2, height/2 + 40);
+    
+    // Return to original alignment
     ctx.textAlign = 'left';
   };
 

@@ -4,6 +4,7 @@ import { ParameterInput, ParameterPanel, DataDisplay, ControlButton } from '../.
 import { Figure } from '../../components/scientific/Figure';
 import { SOIL_PROPERTIES, FORMULAS } from '../../constants/engineering';
 import { FOUNDATION_ANALYSIS } from '../../services/wolframAlpha';
+import { createCanvasProps, clearCanvas, setupCanvasContext } from '../../utils/canvasUtils';
 
 export default function SoilStructureInteraction() {
   const canvasRef = useRef(null);
@@ -113,9 +114,14 @@ export default function SoilStructureInteraction() {
     const width = canvas.width;
     const height = canvas.height;
 
-    // Clear canvas
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(0, 0, width, height);
+    // Clear canvas with utility function
+    clearCanvas(canvas);
+    
+    // Set up standard drawing context with larger font for bigger canvas
+    setupCanvasContext(ctx, {
+      lineWidth: 2,
+      font: '16px Courier New'
+    });
 
     // Ground surface
     const groundLevel = height * 0.4;
@@ -576,21 +582,37 @@ export default function SoilStructureInteraction() {
     >
       <canvas
         ref={canvasRef}
-        width={800}
-        height={600}
-        className="border-2 border-mono-400 bg-mono-100 w-full"
+        {...createCanvasProps('large')}
       />
     </Figure>
   );
 
   return (
-    <SimulationLayout
-      title="Soil-Structure Interaction"
-      subtitle="Foundation Design with Geotechnical Considerations"
-      parameterPanel={parameterPanel}
-      visualization={visualization}
-      resultsPanel={resultsPanel}
-    >
+    <div className="academic-page min-h-screen bg-mono-100 text-mono-black font-mono leading-snug">
+      {/* Header */}
+      <header className="text-center py-8 border-b-2 border-mono-400 bg-mono-white">
+        <h1 className="text-3xl font-bold mb-2">Soil-Structure Interaction</h1>
+        <p className="text-lg text-mono-600">Foundation Design with Geotechnical Considerations</p>
+      </header>
+
+      <div className="container mx-auto px-4 py-8">
+        {/* Large Visualization Section */}
+        <section className="mb-8">
+          {visualization}
+        </section>
+
+        {/* Controls Section Below */}
+        <section className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Parameters */}
+          <div className="lg:col-span-2">
+            {parameterPanel}
+          </div>
+          
+          {/* Results */}
+          <div>
+            {resultsPanel}
+          </div>
+        </section>
       
       {/* Educational Content */}
       <section className="panel-scientific p-6 border-precise-2 mt-8">
@@ -630,6 +652,7 @@ export default function SoilStructureInteraction() {
         </div>
       </section>
       
-    </SimulationLayout>
+      </div>
+    </div>
   );
 }

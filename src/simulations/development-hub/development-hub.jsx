@@ -26,17 +26,11 @@ export default function DevelopmentHub() {
 
   const claudeQuickLinks = [
     {
-      name: 'Claude Code',
-      url: CLAUDE_INTEGRATION.claudeCode,
-      description: 'AI development assistant for coding tasks',
-      icon: '🤖',
-      featured: true
-    },
-    {
       name: 'Claude Web',
       url: CLAUDE_INTEGRATION.claudeWeb,
       description: 'General Claude conversation interface',
-      icon: '💬'
+      icon: '💬',
+      featured: true
     },
     {
       name: 'Anthropic Docs',
@@ -100,43 +94,6 @@ export default function DevelopmentHub() {
     }
   ];
 
-  const projectIdeas = [
-    {
-      title: 'Load Path Tracer',
-      description: 'Visual tool showing how forces travel through structures',
-      priority: 'High',
-      complexity: 'Medium',
-      estimatedTime: '2-3 days'
-    },
-    {
-      title: 'Soil-Structure Interaction',
-      description: 'Foundation design with different soil types',
-      priority: 'Medium',
-      complexity: 'High',
-      estimatedTime: '3-4 days'
-    },
-    {
-      title: 'Multi-Hazard Assessment',
-      description: 'Combined earthquake, wind, and load analysis',
-      priority: 'Medium',
-      complexity: 'High',
-      estimatedTime: '4-5 days'
-    },
-    {
-      title: 'Case Study Explorer',
-      description: 'Interactive timeline of structural failures and successes',
-      priority: 'Low',
-      complexity: 'Medium',
-      estimatedTime: '2-3 days'
-    },
-    {
-      title: 'Student Submission Portal',
-      description: 'Community parameter sharing and results',
-      priority: 'Low',
-      complexity: 'Medium',
-      estimatedTime: '3-4 days'
-    }
-  ];
 
   const openClaudeWithPrompt = (template) => {
     const claudeUrl = CLAUDE_INTEGRATION.generatePromptLink(template);
@@ -153,8 +110,7 @@ export default function DevelopmentHub() {
   const tabs = {
     claude: { name: 'Claude AI', icon: '🤖' },
     development: { name: 'Development', icon: '🔧' },
-    newsletter: { name: 'Newsletter', icon: '📧' },
-    roadmap: { name: 'Roadmap', icon: '🗺️' }
+    newsletter: { name: 'Newsletter', icon: '📧' }
   };
 
   return (
@@ -365,84 +321,6 @@ export default function DevelopmentHub() {
         </>
       )}
 
-      {/* Roadmap Tab */}
-      {activeTab === 'roadmap' && (
-        <Figure
-          title="Development Roadmap"
-          caption="Planned features and implementation timeline for platform expansion"
-        >
-          <div className="roadmap">
-            {/* Upcoming Features */}
-            <div className="upcoming-features mb-8">
-              <h4 className="text-data-value mb-4">Planned Simulations & Features</h4>
-              <div className="space-y-4">
-                {projectIdeas.map((idea, index) => (
-                  <div key={index} className="idea-card panel-scientific p-4 border-precise-2">
-                    <div className="flex items-start justify-between mb-2">
-                      <h5 className="text-data-value font-semibold">{idea.title}</h5>
-                      <div className="flex gap-2">
-                        <span className={`text-xs px-2 py-1 border ${
-                          idea.priority === 'High' ? 'bg-mono-300 border-mono-black' : 
-                          idea.priority === 'Medium' ? 'bg-mono-200 border-mono-600' : 
-                          'bg-mono-100 border-mono-400'
-                        }`}>
-                          {idea.priority}
-                        </span>
-                        <span className="text-xs px-2 py-1 border bg-mono-100">
-                          {idea.complexity}
-                        </span>
-                      </div>
-                    </div>
-                    <p className="text-methodology text-sm mb-2">{idea.description}</p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-data-label text-xs">
-                        Estimated: {idea.estimatedTime}
-                      </span>
-                      <ControlButton
-                        onClick={() => {
-                          const prompt = `Help me implement "${idea.title}" for my civil engineering platform. ${idea.description}`;
-                          openClaudeWithPrompt(prompt);
-                        }}
-                        variant="secondary"
-                        className="text-xs"
-                      >
-                        Plan with Claude
-                      </ControlButton>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Implementation Notes */}
-            <div className="implementation-notes panel-scientific p-6 border-precise-2">
-              <h4 className="text-data-value mb-4">Implementation Guidelines</h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <h5 className="text-data-label mb-2">Development Priorities</h5>
-                  <ol className="text-methodology text-sm space-y-1">
-                    <li>1. Complete high-priority simulations first</li>
-                    <li>2. Maintain consistent academic aesthetic</li>
-                    <li>3. Ensure mobile responsiveness</li>
-                    <li>4. Add comprehensive documentation</li>
-                    <li>5. Implement user testing and feedback</li>
-                  </ol>
-                </div>
-                <div>
-                  <h5 className="text-data-label mb-2">Quality Assurance</h5>
-                  <ul className="text-methodology text-sm space-y-1">
-                    <li>• Verify all calculations with Wolfram Alpha</li>
-                    <li>• Test across multiple browsers and devices</li>
-                    <li>• Maintain accessibility standards</li>
-                    <li>• Follow existing component patterns</li>
-                    <li>• Document all engineering assumptions</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Figure>
-      )}
 
     </AcademicPage>
   );

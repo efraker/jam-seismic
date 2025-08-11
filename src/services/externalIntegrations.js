@@ -27,8 +27,8 @@ export const CLAUDE_INTEGRATION = {
     addFormula: "I need to implement the [formula name] calculation in my engineering constants. Help me add proper validation and units."
   },
   
-  // Generate Claude link with pre-filled prompt
-  generatePromptLink: (prompt) => `https://claude.ai?q=${encodeURIComponent(prompt)}`
+  // Generate Claude link with pre-filled prompt  
+  generatePromptLink: (prompt) => `https://claude.ai/chat?q=${encodeURIComponent(prompt)}`
 };
 
 /**
